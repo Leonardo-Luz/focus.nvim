@@ -26,6 +26,7 @@ M.state = {
     },
   },
 
+  hard = false,
   grid = nil,
   positions = nil,
   number_to_cell = nil,
@@ -317,7 +318,7 @@ local function update_footer()
 
   local bar = string.rep("█", filled) .. string.rep(" ", empty)
 
-  local line1 = string.format("%s %d%%", bar, math.floor(percent * 100 + 0.5))
+  local line1 = string.format("%s %s %d%%", M.state.next_number, bar, math.floor(percent * 100 + 0.5))
 
   local buf = M.state.window_config.footer.floating.buf
   if buf and vim.api.nvim_buf_is_valid(buf) then
@@ -452,12 +453,14 @@ local function check_selection()
       s.positions[cell_index] = nil
 
 
-      highlight_correct_cell(
-        s.window_config.main.floating.buf,
-        line_idx,
-        current.col0,
-        #num_s
-      )
+      if not M.state.hard then
+        highlight_correct_cell(
+          s.window_config.main.floating.buf,
+          line_idx,
+          current.col0,
+          #num_s
+        )
+      end
     end
 
 
@@ -618,6 +621,7 @@ M.setup = function(opts)
       y = map_size.y or M.state.map.size.y,
     }
   end
+  M.state.hard = opts.hard
 end
 
 return M

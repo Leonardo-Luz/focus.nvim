@@ -22,6 +22,7 @@ Add `leonardo-luz/focus.nvim` to your Neovim plugin manager (e.g., `init.lua` or
       x = 6, -- Grid width  (default: 6)
       y = 6, -- Grid height (default: 6)
     },
+    hard = false -- Removes correct marks if true.
   },
 }
 ```
